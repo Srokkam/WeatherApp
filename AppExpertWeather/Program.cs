@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using System.Threading.Tasks;
 using AppExpertWeatherApp.Models;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,7 +19,7 @@ namespace AppExpertWeatherApp
 
             var weatherReportService = serviceProvider.GetService<IWeatherService>();
             WeatherDetail data = new WeatherDetail();
-            
+
             Parallel.Invoke(() => { data = weatherReportService.GetWeatherReport(); }, () => Console.WriteLine("Open Weather Client"));
 
             Console.WriteLine("City " + data.Name);
@@ -29,7 +28,7 @@ namespace AppExpertWeatherApp
             Console.WriteLine("Pressure " + data.weather.Pressure + " hPa");
             Console.WriteLine("Humidity " + data.weather.Humidity + " %");
         }
-     }
-  
+    }
+
 }
 
