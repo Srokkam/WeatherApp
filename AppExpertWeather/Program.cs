@@ -17,16 +17,30 @@ namespace AppExpertWeatherApp
            .AddSingleton<ApiClient>()
            .BuildServiceProvider();
 
+            Console.WriteLine("Open Weather Client");
             var weatherReportService = serviceProvider.GetService<IWeatherService>();
-            WeatherDetail data = new WeatherDetail();
 
-            Parallel.Invoke(() => { data = weatherReportService.GetWeatherReport(); }, () => Console.WriteLine("Open Weather Client"));
+            Parallel.Invoke(() => {
+                City city = new City("Montreal","CA");
+                PrintData(weatherReportService.GetWeatherReport(city)); 
 
-            Console.WriteLine("City " + data.Name);
-            Console.WriteLine("Temp " + (data.weather.Temp - 273.15).ToString("0.##") + " Celsius");
-            Console.WriteLine("Feels Like " + (data.weather.TempLike - 273.15).ToString("0.##") + " Celsius");
-            Console.WriteLine("Pressure " + data.weather.Pressure + " hPa");
-            Console.WriteLine("Humidity " + data.weather.Humidity + " %");
+            }, 
+            () => {
+                
+                  City city = new City("Kolkata", "IN");
+                PrintData(weatherReportService.GetWeatherReport(city));
+
+            });
+
+           
+        }
+        public static void PrintData(WeatherDetail data)
+        {
+            Console.WriteLine("City :" + data.Name);
+            Console.WriteLine("Temp At "+data.Name+":" + (data.weather.Temp - 273.15).ToString("0.##") + " Celsius");
+            Console.WriteLine(data.Name+" Feels Like :" + (data.weather.TempLike - 273.15).ToString("0.##") + " Celsius");
+            Console.WriteLine("Pressure At " + data.Name + ":" + data.weather.Pressure + " hPa");
+            Console.WriteLine("Humidity At " + data.Name + ":" + data.weather.Humidity + " %");
         }
     }
 

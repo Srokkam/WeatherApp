@@ -7,6 +7,6 @@ namespace Service.Providers
 {
    public interface IWeatherService
     {
-        WeatherDetail GetWeatherReport();
+        WeatherDetail GetWeatherReport(City city);
     }
 }

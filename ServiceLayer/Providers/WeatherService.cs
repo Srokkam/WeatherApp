@@ -15,7 +15,7 @@ namespace Service.Providers
         {
             this.client = client;
         }
-        public WeatherDetail GetWeatherReport()
+        public WeatherDetail GetWeatherReport(City city)
         {
             var config = new MapperConfiguration(cfg =>
             {
@@ -24,9 +24,9 @@ namespace Service.Providers
             });
             var mapper = new Mapper(config);
 
-            string url = Constant.APIBase + "geo/1.0/direct?q=Montreal&limit=5&appid="+Constant.AppId;
+            string url = Constant.APIBase + "geo/1.0/direct?q="+city.Name+"&limit=5&appid="+Constant.AppId;
             var data = client.GetTAsync<List<CityDTO>>(url).Result;
-            var montrealData = data.Where(d => d.Country == "CA").FirstOrDefault();
+            var montrealData = data.Where(d => d.Country == city.Country).FirstOrDefault();
             string weatherUrl = String.Format("{0}/data/2.5/weather?lat={1}&lon={2}&appid={3}", Constant.APIBase, montrealData.Lat, montrealData.Lon,Constant.AppId);
             
             return mapper.Map<WeatherDetail>(client.GetTAsync<WeatherDetailDTO>(weatherUrl).Result);

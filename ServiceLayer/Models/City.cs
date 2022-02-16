@@ -26,11 +26,18 @@ namespace AppExpertWeatherApp.Models
 
     public class City
     {
+        
+        public City(string name, string county)
+        {
+            this.Name = name;
+            this.Country = county;
+        }
         public string Name { get; set; }
         public double Lat { get; set; }
         public double Lon { get; set; }
-
+        public string Country { get; set; }
     }
+    
 
-    }
+}
 
